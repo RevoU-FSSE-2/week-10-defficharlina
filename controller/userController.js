@@ -10,15 +10,15 @@ const registerService = async (req, username, password, role) => {
     throw new Error('Username already exists')
   } 
   
-  const hashedPassword = await bcrypt.hash(password, 10) // return !@#123
+  const hashedPassword = await bcrypt.hash(password, 8) // return !@#123
   
-  const newUser = await req.db.collection('users').insertOne({ username, email, password: hashedPassword, role })
+  const newUser = await req.db.collection('users').insertOne({ username, password: hashedPassword, role })
   
   return newUser
 }
 
 const register = async (req, res, next) => {
-  const { username, email, password, role } = req.body
+  const { username, password, role } = req.body
   
   try {
     const newUser = await registerService(req, username, email, password, role)

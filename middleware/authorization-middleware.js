@@ -11,7 +11,7 @@ const authorizationMiddleware = (req, res, next) => {
     
     try {
       const decodedToken = jwt.verify(token, JWT_SIGN)
-      if (decodedToken.role === 'admin') {
+      if (decodedToken.role === 'approver' || decodedToken.role === 'maker' ) {
         next()
       } else {
         res.status(401).json({ error: 'Unauthorized' })

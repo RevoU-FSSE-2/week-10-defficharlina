@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const databaseMiddleware = require('./middleware/database-middleware.js')
 const authRouter = require('./routes/auth-route.js')
-//const bioRouter = require('./routes/bio-route.js')
+const transferRouter = require('./routes/transfer-route.js')
 const authMiddleware = require('./middleware/authentication-middleware.js')
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yaml')
@@ -27,8 +27,9 @@ app.use(databaseMiddleware)
 app.get('/', (req, res)=> {
   res.send('Hello World!')
 })
+
 app.use('/auth', authRouter)
-//app.use('/bio', authMiddleware, bookRouter)
+app.use('/transfer', authMiddleware, transferRouter)
 
 app.use((err, req, res, next) => {
   console.log(err, `<=================== error ==================`);
