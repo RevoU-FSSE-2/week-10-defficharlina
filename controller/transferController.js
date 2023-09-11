@@ -18,10 +18,10 @@ const getAllTransfer = async (req, res) => {
     const { amount, destinationAccount, information } = req.body
     
     console.log(amount, destinationAccount, information, `<=================== transaction ==================`);
-    const status ="pending";
+    const status ='pending';
     
     try {
-      const newTransaction = await req.db.collection('transaction').insertOne({ amount, destinationAccount, information })
+      const newTransaction = await req.db.collection('transaction').insertOne({ amount, destinationAccount, information, status })
       
       res.status(200).json({
         message: 'Transfer successfully created',
