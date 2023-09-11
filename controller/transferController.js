@@ -33,7 +33,7 @@ const getAllTransfer = async (req, res) => {
   }
 
   const approveTransfer = async (req, res) => {
-    // Ensure the user has the 'approver' role before proceeding
+
     const { role } = req.user;
     if (role !== "approver") {
       return res.status(403).json({
@@ -41,13 +41,13 @@ const getAllTransfer = async (req, res) => {
       });
     }
   
-    // Retrieve the transfer ID and update the status to 'approved'
+
     const { transferId, status } = req.body;
   
-    // Check if the status is valid ("approved" or "not approved")
+  
     if (status !== "approved" && status !== "not approved") {
       return res.status(400).json({
-        Message: "Invalid status. Status must be 'approved' or 'not approved'",
+        Message: "Invalid status",
       });
     }
   
@@ -64,11 +64,11 @@ const getAllTransfer = async (req, res) => {
   
       if (status === "approved") {
         res.status(200).json({
-          Message: "Transfer request approved ✅",
+          Message: "Approved",
         });
       } else {
         res.status(200).json({
-          Message: "Transfer request not approved",
+          Message: "Not approved",
         });
       }
     } catch (error) {

@@ -21,7 +21,7 @@ const register = async (req, res, next) => {
   const { username, password, role } = req.body
   
   try {
-    const newUser = await registerService(req, username, email, password, role)
+    const newUser = await registerService(req, username, password, role)
     
     res.status(200).json({
       message: 'User successfully registered',

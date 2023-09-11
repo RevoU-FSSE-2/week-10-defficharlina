@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: 'Student Data'
+  title: 'Transaction'
   version: 1.0.0
-  description: 'Manage student data'
+  description: 'Manage transaction'
 servers:
   - url: http://localhost:3000
     description: 'Server'
@@ -26,8 +26,8 @@ components:
         role:
           type: string
           enum:
-            - "superadmin"
-            - "admin"
+            - "maker"
+            - "approver"
       required:
         - username
     LoginUser:
@@ -102,14 +102,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest'
-  /books:
+  /transfer:
     get:
       security:
         - bearer: []
-      summary: 'Get all books'
+      summary: 'Get all transfer'
       responses:
         '200':
-          description: 'Get all books'
+          description: 'Get all transfers'
           content:
             application/json:
               schema:
@@ -124,12 +124,84 @@ paths:
                       properties:
                         id:
                           type: integer
-                        title:
+                        amount:
+                          type: integer
+                        destination account:
                           type: string
-                        author:
+                        information:
                           type: string
-                
-                
-                
-                
-                
+  /transfer:
+    post:
+      security:
+        - bearer: []
+      summary: Create a transfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transfer"
+      responses:
+        "201":
+          description: Transfer successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      amount:
+                        type: integer
+                      information:
+                        type: string
+                      status:
+                        type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+  /transfers/approve:
+    put:
+      security:
+        - bearer: []
+      summary: Approve a transfer
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transferId:
+                  type: string
+                  description: The ID of the transfer to approve
+                status:
+                  type: string
+                  enum:
+                    - approved
+                    - not approved
+                  description: The status"
+      responses:
+        "200":
+          description: Transfer successfully approved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
